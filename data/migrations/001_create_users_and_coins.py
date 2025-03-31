@@ -1,21 +1,18 @@
 from alembic import op
 import sqlalchemy as sa
 
-# Идентификаторы миграции
 revision = '001_create_users_and_coins'
 down_revision = None
 branch_labels = None
 depends_on = None
 
 def upgrade():
-    # Создание таблицы пользователей
     op.create_table(
         'users',
         sa.Column('user_id', sa.Integer, primary_key=True, autoincrement=True),
         sa.Column('telegram_id', sa.Text, nullable=False, unique=True)
     )
 
-    # Создание таблицы активов пользователей
     op.create_table(
         'user_coins',
         sa.Column('id', sa.Integer, primary_key=True, autoincrement=True),
