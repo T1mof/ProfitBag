@@ -10,3 +10,11 @@ async def fetch_binance_price(symbol: str) -> float:
                 return float(data['price'])
             else:
                 raise ValueError(f"Не удалось получить цену для {symbol.upper()}. Ответ: {data}")
+
+async def test_fetch_binance_price():
+    try:
+        symbol = 'BTCUSDT'  # Пример тикера
+        price = await fetch_binance_price(symbol)
+        print(f"Текущая цена {symbol}: {price} USDT")
+    except Exception as e:
+        print(f"Ошибка: {e}")

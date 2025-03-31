@@ -1,10 +1,10 @@
-from start import router as start_router
-from portfolio import view_portfolio, portfolio_change
-from add_token import add_coin
-from delete_token import delete_coin
-from edit_token import edit_coin
-from get_old_price import get_old_price
-from get_current_price import get_current_price
+from bot.handlers.start import router as start_router
+from bot.handlers.portfolio import get_portfolio_router
+from bot.handlers.add_token import add_coin_router
+from bot.handlers.delete_token import delete_coin_router
+from bot.handlers.edit_token import edit_token_router
+from bot.handlers.get_old_price import get_old_price_router
+from bot.handlers.get_current_price import get_current_price_router
 
 # Глобальная переменная для пула соединений к БД
 db_pool = None
@@ -30,10 +30,9 @@ def register_handlers(dp, pool):
 
     # Регистрируем роутеры
     dp.include_router(start_router)
-    dp.include_router(add_coin)
-    dp.include_router(delete_coin)
-    dp.include_router(edit_coin)
-    dp.include_router(get_old_price)
-    dp.include_router(get_current_price)
-    dp.include_router(view_portfolio)
-    dp.include_router(portfolio_change)
+    dp.include_router(add_coin_router)
+    dp.include_router(delete_coin_router)
+    dp.include_router(edit_token_router)
+    dp.include_router(get_old_price_router)
+    dp.include_router(get_current_price_router)
+    dp.include_router(get_portfolio_router)

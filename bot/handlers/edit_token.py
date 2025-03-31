@@ -4,12 +4,14 @@ from sqlalchemy.future import select
 from sqlalchemy.exc import SQLAlchemyError
 from bot.utils.db import AsyncSessionLocal
 from data.models import User, UserCoin
+from aiogram.filters import Command
+
 
 logger = logging.getLogger(__name__)
-router = Router()
+edit_token_router = Router()
 
 
-@router.message(commands=["edit"])
+@edit_token_router.message(Command("edit"))
 async def edit_coin(message: types.Message):
     """
     Обработчик команды /edit <тикер> <новое_количество> <новая_цена_покупки>.

@@ -5,11 +5,13 @@ from sqlalchemy.exc import SQLAlchemyError
 from bot.utils.db import AsyncSessionLocal
 from data.models import User, UserCoin
 from bot.utils.api_requests import fetch_binance_price
+from aiogram.filters import Command
+
 
 logger = logging.getLogger(__name__)
-router = Router()
+get_portfolio_router = Router()
 
-@router.message(commands=["portfolio"])
+@get_portfolio_router.message(Command("portfolio"))
 async def view_portfolio(message: types.Message):
     """
     Обработчик команды /portfolio.
@@ -54,7 +56,7 @@ async def view_portfolio(message: types.Message):
 
 
 
-@router.message(commands=["portfolio_change"])
+@get_portfolio_router.message(Command("portfolio_change"))
 async def portfolio_change(message: types.Message):
     """
     Обработчик команды /portfolio_change.

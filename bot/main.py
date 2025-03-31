@@ -6,6 +6,7 @@ from config import BOT_TOKEN, DATABASE_URL
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from bot.handlers import register_handlers  # функция для регистрации всех обработчиков команд
+from bot.utils.api_requests import test_fetch_binance_price
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -45,4 +46,5 @@ async def main():
 
 
 if __name__ == '__main__':
+    asyncio.run(test_fetch_binance_price()) #Это тест запросов к api binance
     asyncio.run(main())

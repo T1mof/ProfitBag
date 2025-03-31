@@ -4,12 +4,14 @@ from sqlalchemy.future import select
 from sqlalchemy.exc import SQLAlchemyError
 from bot.utils.db import AsyncSessionLocal
 from data.models import User, UserCoin
+from aiogram.filters import Command
+
 
 logger = logging.getLogger(__name__)
-router = Router()
+get_old_price_router = Router()
 
 
-@router.message(commands=["get_price"])
+@get_old_price_router.message(Command("get_price"))
 async def get_old_price(message: types.Message):
     """
     Обработчик команды /get_price <тикер>.

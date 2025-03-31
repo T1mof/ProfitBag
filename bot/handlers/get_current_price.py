@@ -1,12 +1,14 @@
 import logging
 from aiogram import Router, types
 from bot.utils.api_requests import fetch_binance_price
+from aiogram.filters import Command
+
 
 logger = logging.getLogger(__name__)
-router = Router()
+get_current_price_router = Router()
 
 
-@router.message(commands=["get_price"])
+@get_current_price_router.message(Command("get_price"))
 async def get_current_price(message: types.Message):
     """
     Обработчик команды /get_price <тикер>.

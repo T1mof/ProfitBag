@@ -4,12 +4,13 @@ from sqlalchemy.future import select
 from sqlalchemy.exc import SQLAlchemyError
 from bot.utils.db import AsyncSessionLocal
 from data.models import User, UserCoin
+from aiogram.filters import Command
 
 logger = logging.getLogger(__name__)
-router = Router()
+delete_coin_router = Router()
 
 
-@router.message(commands=["delete"])
+@delete_coin_router.message(Command("delete"))
 async def delete_coin(message: types.Message):
     """
     Обработчик команды /delete <тикер>.
