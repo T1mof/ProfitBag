@@ -10,7 +10,7 @@ def upgrade():
     op.create_table(
         'users',
         sa.Column('user_id', sa.Integer, primary_key=True, autoincrement=True),
-        sa.Column('telegram_id', sa.Text, nullable=False, unique=True)
+        sa.Column('telegram_id', sa.BigInteger, nullable=False, unique=True)  # Изменено с Text на BigInteger
     )
 
     op.create_table(

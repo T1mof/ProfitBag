@@ -1,31 +1,34 @@
-import logging
+import aiohttp
+import ssl
+import certifi
 from aiogram import Router, types
-from bot.utils.api_requests import fetch_binance_price
 from aiogram.filters import Command
 
-
-logger = logging.getLogger(__name__)
 get_current_price_router = Router()
 
+async def fetch_crypto_price(symbol: str) -> float:
+    if not symbol.upper().endswith('USDT'):
+        symbol = symbol.upper() + 'USDT'
+    url = 'https://api.binance.com/api/v3/ticker/price'
+    params = {'symbol': symbol}
+    ssl_context = ssl.create_default_context(cafile=certifi.where())
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url, params=params, ssl=ssl_context) as response:
+            data = await response.json()
+            if 'price' in data:
+                return float(data['price'])
+            else:
+                raise ValueError(f"Не удалось получить цену для {symbol}")
 
-@get_current_price_router.message(Command("get_price"))
+@get_current_price_router.message(Command("price"))
 async def get_current_price(message: types.Message):
-    """
-    Обработчик команды /get_price <тикер>.
-    Отображает текущую рыночную цену указанной монеты.
-    """
-    # Разделение введённой команды на части
-    try:
-        _, ticker = message.text.split()
-    except ValueError:
-        await message.reply("Неверный формат команды. Используйте: /get_price <тикер>")
+    parts = message.text.split()
+    if len(parts) != 2:
+        await message.reply("Неверный формат команды. Используйте: /price ТИКЕР\nПример: /price BTC")
         return
-
-    ticker = ticker.upper()
+    ticker = parts[1].upper()
     try:
-        # Получение текущей цены монеты с помощью функции fetch_binance_price
-        price = await fetch_binance_price(ticker)
+        price = await fetch_crypto_price(ticker)
         await message.reply(f"Текущая цена {ticker}: {price} USDT")
-    except ValueError as e:
-        await message.reply(str(e))
-        logger.error(f"Ошибка при получении цены для {ticker}: {e}")
+    except Exception as e:
+        await message.reply(f"Ошибка: {e}")
