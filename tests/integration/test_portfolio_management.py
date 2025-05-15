@@ -1,7 +1,3 @@
-"""
-Интеграционное тестирование инвестиционного Telegram бота.
-"""
-
 import os
 import sys
 import pytest
