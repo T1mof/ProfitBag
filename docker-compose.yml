@@ -19,5 +19,18 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  unit-tests:
+    build: .
+    command: python -m pytest tests/unit
+    depends_on:
+      - bot
+  
+  integration-tests:
+    build: .
+    command: python -m pytest tests/integration
+    depends_on:
+      - bot
+      - unit-tests
+
 volumes:
   pgdata:
